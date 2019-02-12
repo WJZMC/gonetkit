@@ -87,7 +87,7 @@ func (c *Conn) doFrequency() error {
 	count := coutTmp.(int)
 	num := numTmp.(int)
 	count++
-	if num > count {
+	if num < count {
 		return errors.New("消息发送过于频繁！！")
 	}
 	c.SetProperty("gnk_fqy_count", count)

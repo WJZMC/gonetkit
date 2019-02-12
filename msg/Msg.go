@@ -84,7 +84,7 @@ func (m *MsgPack) Pack(msger interfacer.Msger) ([]byte, error) {
 func (m *MsgPack) UnPack(data []byte) (interfacer.Msger, error) {
 	buffRead := bytes.NewReader(data)
 
-	var msg *Msg
+	var msg *Msg= new(Msg)
 	//向固定字节的空间解压缩，写完为止，这里只写4字节
 	if err := binary.Read(buffRead, binary.LittleEndian, &msg.msgLen); err != nil {
 		return nil, err
@@ -94,7 +94,7 @@ func (m *MsgPack) UnPack(data []byte) (interfacer.Msger, error) {
 		return nil, err
 	}
 
-	if util.GBConfig.MaxMsgPackSize > 0 && msg.GetLen() > util.GBConfig.MaxMsgPackSize || util.GBConfig.MaxMsgPackSize == 0 && msg.GetLen() > MAX_PACKET_SIZE {
+	if util.GBConfig.MaxMsgPackSize > 0 && msg.GetLen() > util.GBConfig.MaxMsgPackSize || util.GBConfig.MaxMsgPackSize == 0 && msg.GetLen() > uint32(MAX_PACKET_SIZE) {
 		return nil, errors.New("package lager than maxSize!!!")
 	}
 	return msg, nil

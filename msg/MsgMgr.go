@@ -16,7 +16,7 @@ type MsgMgr struct {
 func NewMsgMgr() interfacer.MsgManager {
 	return &MsgMgr{
 		PoorSize:  util.GBConfig.WorkPoolSize,
-		TaskQueue: make([]chan interfacer.Requester, 0, util.GBConfig.WorkGoChanCaps),
+		TaskQueue: make([]chan interfacer.Requester, util.GBConfig.WorkPoolSize),
 		Routers:   make(map[uint32]interfacer.Routerer),
 	}
 }
@@ -33,8 +33,8 @@ func (m *MsgMgr) DoMsg(request interfacer.Requester) {
 }
 
 //为消息添加具体的处理逻辑
-func (m *MsgMgr) AddRouter(routerType uint32, router interfacer.Routerer) {
-	m.Routers[routerType] = router
+func (m *MsgMgr) AddRouter(routerTypeName uint32, router interfacer.Routerer) {
+	m.Routers[routerTypeName] = router
 }
 
 //开启worker，循环处理消息

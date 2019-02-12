@@ -32,8 +32,8 @@ func NewServe() interfacer.Servicer {
 		IP:         util.GBConfig.Host,
 		Prot:       util.GBConfig.Port,
 		MaxConn:    util.GBConfig.MaxConn,
-		MsgMgr:     msg.NewMsgMgr(),
 		ConnMgr:    connect.NewConnMgr(),
+		MsgMgr:     msg.NewMsgMgr(),
 		GenMgr:     util.NewUUIDGenerator(""),
 		signalChan: make(chan os.Signal),
 	}
@@ -93,7 +93,7 @@ func (s *Serve) GetConnectionQueue() chan interface{} {
 	return nil
 }
 
-func (s *Serve) AddRouter(name string, router interfacer.Routerer) {
+func (s *Serve) AddRouter(name uint32, router interfacer.Routerer) {
 	s.MsgMgr.AddRouter(name, router)
 
 }

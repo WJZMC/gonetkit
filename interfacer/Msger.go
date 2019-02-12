@@ -5,7 +5,7 @@ type Msger interface {
 	SetMsgLen(uint32)
 	SetMSgData([]byte)
 
-	GetLen() uint32		//获取消息数据段长度
-	GetMsgId() uint32	//获取消息id
-	GetData() []byte	//获取消息内容
+	GetLen() uint32   //获取消息数据段长度
+	GetMsgId() uint32 //获取消类型
+	GetData() []byte  //获取消息内容
 }

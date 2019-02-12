@@ -2,6 +2,7 @@ package util
 
 import (
 	"encoding/json"
+	"fmt"
 	"gonetkit/interfacer"
 	"io/ioutil"
 	"log"
@@ -63,9 +64,10 @@ func (g *Global) FrequencyFormat() (int, string) {
 }
 
 func (g *Global) reload() {
-	config, err := ioutil.ReadFile("config/conf.json")
+	config, err := ioutil.ReadFile("conf/conf.json")
 	if err != nil {
-		log.Panic("config file not exist!!!")
+		fmt.Println("conf file not exist!!!")
+		return
 	}
 
 	err = json.Unmarshal(config, &GBConfig)
@@ -77,11 +79,19 @@ func (g *Global) reload() {
 var GBConfig *Global
 
 func init() {
-	GBConfig := &Global{
+	GBConfig = &Global{
 		ServerName: "gonetkit",
 		Host:       "0.0.0.0",
 		Port:       9000,
 		MaxConn:    12000,
+
+		WorkPoolSize:    8,
+		WorkGoChanCaps:  100,
+		WorkMsgChanCaps: 1000,
+
+		//发送消息的时间间隔 100/h, 100/m, 100/s
+		Frequency: "100/s",
 	}
 	GBConfig.reload()
+	fmt.Println(GBConfig)
 }
